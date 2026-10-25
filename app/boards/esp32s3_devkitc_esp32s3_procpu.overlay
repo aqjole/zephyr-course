@@ -1,0 +1,19 @@
+/*
+ * ESP32-S3-DevKitC-1 has no plain on-board LED (only a WS2812 RGB LED on
+ * GPIO 38), so wire an external LED: anode to GPIO 13, cathode through a
+ * 220-330 ohm resistor to GND.
+ */
+
+/ {
+	aliases {
+		led0 = &led0;
+	};
+
+	leds {
+		compatible = "gpio-leds";
+		led0: led_0 {
+			gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+			label = "External LED on GPIO 13";
+		};
+	};
+};
