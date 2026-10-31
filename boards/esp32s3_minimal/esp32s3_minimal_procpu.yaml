@@ -1,0 +1,10 @@
+identifier: esp32s3_minimal/esp32s3/procpu
+name: ESP32-S3 Minimal PROCPU
+type: mcu
+arch: xtensa
+toolchain:
+  - zephyr
+supported:
+  - gpio
+  - uart
+vendor: espressif

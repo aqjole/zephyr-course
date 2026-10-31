@@ -1,0 +1,6 @@
+board:
+  name: esp32s3_minimal
+  full_name: ESP32-S3 Minimal
+  vendor: espressif
+  socs:
+    - name: esp32s3
