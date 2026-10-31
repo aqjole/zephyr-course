@@ -1,29 +1,26 @@
-#include <zephyr/drivers/gpio.h>
+#include <zephyr/drivers/sensor.h>
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
 #define SLEEP_TIME_MS CONFIG_APP_HEARTBEAT_PERIOD_MS
 
-/* The devicetree node identifier for the "app-led" alias. */
-#define LED_NODE DT_ALIAS(app_led)
-
-static const struct gpio_dt_spec led = GPIO_DT_SPEC_GET(LED_NODE, gpios);
+static const struct device *const led_sensor = DEVICE_DT_GET_ANY(zephyr_led_sensor);
 
 LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 int main(void)
 {
-    bool led_state = true;
+    struct sensor_value val;
 
-    if (!gpio_is_ready_dt(&led)) return 0;
-
-    if (gpio_pin_configure_dt(&led, GPIO_OUTPUT_ACTIVE) < 0) return 0;
+    if (!device_is_ready(led_sensor)) return 0;
 
     while (1) {
-        if (gpio_pin_toggle_dt(&led) < 0) return 0;
+        if (sensor_sample_fetch(led_sensor) < 0) return 0;
+        LOG_INF("LED state: ON");
+        k_msleep(SLEEP_TIME_MS);
 
-        led_state = !led_state;
-        LOG_INF("LED state: %s", led_state ? "ON" : "OFF");
+        if (sensor_channel_get(led_sensor, SENSOR_CHAN_ALL, &val) < 0) return 0;
+        LOG_INF("LED state: OFF (was %d)", val.val1);
 #ifdef CONFIG_APP_LED_DEBUG
         LOG_INF("LED debug: period=%d ms, brightness=%d, fade=%d ms", SLEEP_TIME_MS,
                 CONFIG_APP_LED_BRIGHTNESS, CONFIG_APP_LED_FADE_DURATION_MS);

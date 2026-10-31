@@ -1,0 +1,6 @@
+name: zephyr-course
+build:
+  cmake: .
+  kconfig: Kconfig
+  settings:
+    dts_root: .

@@ -16,6 +16,11 @@
 			label = "External LED on GPIO 13";
 		};
 	};
+
+	led_sensor: led_sensor {
+		compatible = "zephyr,led-sensor";
+		gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+	};
 };
 
 #include "../app.overlay"
