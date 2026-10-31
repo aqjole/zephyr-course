@@ -1,0 +1,6 @@
+board:
+  name: esp32s3_custom
+  full_name: ESP32-S3-Custom
+  vendor: espressif
+  socs:
+  - name: esp32s3
