@@ -2,7 +2,11 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
+#ifdef CONFIG_APP_LED_BLINK_SLEEP_MS
+#define SLEEP_TIME_MS CONFIG_APP_LED_BLINK_SLEEP_MS
+#else
 #define SLEEP_TIME_MS 1000
+#endif
 
 /* The devicetree node identifier for the "led0" alias. */
 #define LED_NODE DT_ALIAS(led0)
@@ -24,6 +28,10 @@ int main(void)
 
         led_state = !led_state;
         LOG_INF("LED state: %s", led_state ? "ON" : "OFF");
+#ifdef CONFIG_APP_LED_DEBUG
+        LOG_INF("LED debug: period=%d ms, brightness=%d, fade=%d ms", SLEEP_TIME_MS,
+                CONFIG_APP_LED_BRIGHTNESS, CONFIG_APP_LED_FADE_DURATION_MS);
+#endif
         k_msleep(SLEEP_TIME_MS);
     }
     return 0;
