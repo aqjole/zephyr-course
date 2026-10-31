@@ -5,4 +5,4 @@ list(APPEND EXTRA_ZEPHYR_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/..)
 find_package(Zephyr REQUIRED)
 project(my_zephyr_app)
 
-target_sources(app PRIVATE src/main.cpp)
+target_sources(app PRIVATE src/main.cpp src/sensor_shell.c)
